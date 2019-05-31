@@ -1,0 +1,56 @@
+                     
+        proc prt2file(){local r,Cell_type,NL,n_cells,n_cels localobj strg,strg1
+        strg=$o1 strg1=$o2         
+        if(!traces_file.isopen()){traces_file.aopen()}
+        if(traces_file.isopen()){
+                for(Cell_type=0;Cell_type<n_types-1;Cell_type+=1){
+		  //if(Cell_type==0){NL=n_layerP end="P" n_cells=int(n_P/2)}else{if(Cell_type==1){NL=n_layerFS end="FS" n_cells=int(n_FS/2)}}
+                  if(Cell_type==0){NL=n_layerP end="P" n_cells=cells_per_population}else{if(Cell_type==1){NL=n_layerFS end="FS" n_cells=cells_per_population}}
+                  
+                   
+                   
+                   
+                   
+                   
+                   for(i=0;i<NL;i+=1){
+                   if(i==0&&cells_per_population!=1){ 
+                        sprint(strg.str,"layer%s%g=cell(%g,1);",end,i,n_cells)
+                        traces_file.printf("%%time and volt for: %s\n  %s \n ", strg.str, strg.str)
+                   }else{
+			if(i>=0 && cells_per_population==1){ 
+                        sprint(strg.str,"layer%s%g=cell(%g,1);",end,i,n_cells)
+                        traces_file.printf("%%time and volt for: %s\n  %s \n ", strg.str, strg.str)
+                   }}    
+                        
+                   for(n_cels=0;n_cels<cells_per_population;n_cels+=1){
+                   sprint(strg.str,"layer%s%g{%g}",end,i,n_cels+1)
+                   traces_file.printf("%%time and volt for: %s\n  %s =[\n ", strg.str, strg.str)                    
+                   sprint(strg.str,"size_v=rec_list_t_%s%g.o(%g).size()-1",end,i,n_cels)
+                   execute(strg.str)             
+                   for(r=0;r<size_v;r+=1){                                    
+                        sprint(strg.str,"t_v=%g*rec_list_t_%s%g.o(%g).x(%g) v=rec_list_v_%s%g.o(%g).x(%g)",0.001,end,i,n_cels,r,end,i,n_cels,r)
+                        execute(strg.str)
+                        if(tmin<=t_v&&t_v<=tmax){traces_file.printf("%g %g\n", t_v,v) }else{
+                                if(t_v>tmax){break}
+                        }
+                      }                                      
+                   traces_file.printf("];\n")}
+                    }                                           
+                   }
+                
+                  traces_file.close()
+		      }       
+                }
+                 
+         
+         
+         
+         
+         
+         //guardar los vectores en "un solo archivo" en el formato de matlab despues de correr la simulacion         
+         //conectar el archivo a la red real
+         //
+                 
+                                 
+          
+                        

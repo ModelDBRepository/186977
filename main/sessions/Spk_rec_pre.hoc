@@ -1,0 +1,41 @@
+
+  
+  objref word,word1,wrd2
+  strdef end
+  word=new string("")
+  word1=new string("")
+  wrd2=new string("")      
+  
+  //Creation of file to save the vectors
+  //======================================
+        objref traces_file,mtx_vt         
+        traces_file = new File("./output_h_test/volt_traces/volt_traces_with_Ih_noise_3_isiI_7.m")  
+  //====================================== 
+  
+  
+       proc Setup_record(){local n_lyr,n_cel,NLmax localobj Src_clls, wrd
+       
+            n_cel=$o1.count()  Src_clls=$o1  wrd=$o2 n_lyr=$3                
+            sprint(wrd.str,"rec_list_t_%s%g=new List() rec_list_v_%s%g=new List()",end,n_lyr,end,n_lyr)
+            execute(wrd.str)
+            for n_cels=0,n_cel-1{
+              sprint(wrd.str,"rec_list_t_%s%g.append(new Vector()) ",end,n_lyr)
+              execute(wrd.str)
+              sprint(wrd.str,"rec_list_v_%s%g.append(new Vector())",end,n_lyr)
+              execute(wrd.str)
+              sprint(wrd.str," layer%s[%g].o(%g).soma {rec_list_v_%s%g.o(%g).record(&layer%s[%g].o(%g).soma.v(0.5)) rec_list_t_%s%g.o(%g).record(&t)}",end,n_lyr,n_cels,end,n_lyr,n_cels,end,n_lyr,n_cels,end,n_lyr,n_cels)
+              execute(wrd.str)  
+            }      
+        }
+        
+        for(Cell_type=0;Cell_type<n_types;Cell_type+=1){
+                if(Cell_type==0){NL=n_layerP end="P" n_cells=int(n_P)}else{if(Cell_type==1){NL=n_layerFS end="FS" n_cells=int(n_FS)}}
+                //if(Cell_type==0){NL=n_layerP end="P" n_cells=n_P}else{if(Cell_type==1){NL=n_layerFS end="FS" n_cells=n_FS}}
+                for(c_idx=0;c_idx<NL;c_idx+=1){                        
+                sprint(word.str, "objref rec_list_t_%s%g,rec_list_v_%s%g",end,c_idx,end,c_idx)  //this for cycle creates the objets to be used  
+                execute(word.str)
+                //Setup_record(cell_listP,word1,c_idx)
+                sprint(word.str,"Setup_record(layer%s[%g],word1,%g)",end,c_idx,c_idx)
+                execute(word.str)                         
+                }      
+              }

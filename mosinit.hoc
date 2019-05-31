@@ -1,0 +1,3 @@
+//moddir mods/network_sims_MODs
+chdir("main")
+load_file("RunSimulation.hoc")
