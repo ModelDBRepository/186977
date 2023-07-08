@@ -44,6 +44,6 @@ GNa_pyr_s   =   1000//  550         // in  (pS/um2)
 GK_pyr_s    =   800//   150         // in  (pS/um2)
 ghd         =   .5e-4//2.3e-4//93e-4 //h-chann cond.// in   (S/cm2)//=>   "Single Ih Channels in Pyramidal Neuron Dendrites:
                                                      //=>   Properties, Distribution, and Impact on Action Potential Output
-                                                     //=>   The Journal of Neuroscience, February 8, 2006 • 26(6):1677–1687 • 1677
+                                                     //=>   The Journal of Neuroscience, February 8, 2006 â€¢ 26(6):1677â€“1687 â€¢ 1677
 // ==============================================================
 // ==============================================================
